@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
+import base64 from 'base-64';
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,16 +11,20 @@ app.post('/webhook', async (req, res) => {
 
   try {
     for (let event of events) {
+      const username = process.env.FLOWISE_USERNAME; // Get from Render environment
+      const password = process.env.FLOWISE_PASSWORD; // Get from Render environment
+      const authHeader = 'Basic ' + base64.encode(username + ':' + password); // Basic Auth encoding
+
       const response = await fetch(
         "https://flowise-vy6k.onrender.com/api/v1/prediction/2f08ed7f-f1db-4d17-9ced-7492b8b7af6d",
         {
           headers: {
-            Authorization: "Bearer 9hl00vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU",
+            Authorization: authHeader,
             "Content-Type": "application/json"
           },
           method: "POST",
           body: JSON.stringify({
-            question: event.message.text  // Send the LINE message text as the question
+            question: event.message.text
           })
         }
       );
@@ -38,4 +43,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
