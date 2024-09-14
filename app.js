@@ -10,13 +10,12 @@ app.post('/webhook', async (req, res) => {
 
   try {
     for (let event of events) {
-      const response = await axios.post('https://flowise-vy6k.onrender.com/api/v1/prediction', {
-        chatflowid: '2f08ed7f-f1db-4d17-9ced-7492b8b7af6d',
-        question: event.message.text,
+      const response = await axios.post('https://flowise-vy6k.onrender.com/api/v1/prediction/2f08ed7f-f1db-4d17-9ced-7492b8b7af6d', {
+        question: event.message.text
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer 9hl0o0vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU`
+          'Authorization': 'Bearer 9hl00vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU'
         }
       });
 
