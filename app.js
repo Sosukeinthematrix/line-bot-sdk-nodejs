@@ -10,27 +10,28 @@ app.post('/webhook', async (req, res) => {
 
   try {
     for (let event of events) {
-      const apiKey = '9hl00vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU'; // Hardcoded Flowise API key
+      // Flowise API endpoint
+      const apiUrl = "https://flowise-vy6k.onrender.com/api/v1/prediction/ac995577-b040-4910-a70e-50fcbaaadfbc";
+      
+      // Authorization Bearer token
+      const apiKey = '4OgucIeSeYRUOlcAzxC-8dyb3UjiWH_DxkLs0PL9yh8';
 
-      // Construct the request headers as used in cURL
+      // Construct the request headers and body
       const headers = {
-        "Authorization": `Bearer ${apiKey}`, // Use Bearer token like in cURL
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}` // Use the Bearer token
       };
 
       const body = JSON.stringify({
-        question: event.message.text
+        question: event.message.text // Send the LINE message text as the question
       });
 
-      // Send the request to Flowise, matching the cURL structure
-      const response = await fetch(
-        "https://flowise-vy6k.onrender.com/api/v1/prediction/2f08ed7f-f1db-4d17-9ced-7492b8b7af6d",
-        {
-          method: "POST",
-          headers: headers,
-          body: body
-        }
-      );
+      // Send the request to Flowise
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: headers,
+        body: body
+      });
 
       const result = await response.json();
       console.log(`Flowise response:`, result);
@@ -50,5 +51,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
