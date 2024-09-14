@@ -2,44 +2,19 @@
   "name": "@line/bot-sdk",
   "version": "1.0.0",
   "description": "Node.js SDK for LINE Messaging API",
-  "type": "module",
-  "engines": {
-    "node": "18.x"
-  },
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "test": "vitest run",
-    "prettier": "prettier \"{lib,test}/**/*.ts\"",
-    "format": "npm run prettier -- --write",
-    "format:check": "npm run prettier -- -l",
-    "clean": "rm -rf dist/*"
+    "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:line/line-bot-sdk-nodejs.git"
-  },
-  "keywords": [
-    "node",
-    "line",
-    "sdk"
-  ],
   "dependencies": {
     "express": "^4.17.1",
     "body-parser": "^1.19.0",
-    "axios": "^1.7.4",
-    "@types/node": "^20.0.0"
+    "axios": "^0.21.1",
+    "base-64": "^1.0.0"
   },
-  "devDependencies": {
-    "@types/express": "4.17.21",
-    "prettier": "3.3.3",
-    "vitest": "^2.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format:check",
-      "pre-push": "npm run format:check && npm run test"
-    }
+  "engines": {
+    "node": "18.x"
   },
   "license": "Apache-2.0"
 }
