@@ -6,7 +6,7 @@
   "engines": {
     "node": "18.x"
   },
-  "main": "app.js",  // Change to the main server file you're creating
+  "main": "app.js",  
   "scripts": {
     "pretest": "npm run format && npm run build",
     "test": "vitest run",
