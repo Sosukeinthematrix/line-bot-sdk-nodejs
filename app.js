@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch'; // Assuming you're using node-fetch
-import base64 from 'base-64';
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,9 +12,9 @@ app.post('/webhook', async (req, res) => {
     for (let event of events) {
       const apiKey = '9hl00vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU'; // Hardcoded Flowise API key
 
-      // Construct the request headers
+      // Construct the request headers as used in cURL
       const headers = {
-        "Authorization": `Bearer ${apiKey}`, // Use Bearer token authentication
+        "Authorization": `Bearer ${apiKey}`, // Use Bearer token like in cURL
         "Content-Type": "application/json"
       };
 
@@ -23,7 +22,7 @@ app.post('/webhook', async (req, res) => {
         question: event.message.text
       });
 
-      // Send the request to Flowise
+      // Send the request to Flowise, matching the cURL structure
       const response = await fetch(
         "https://flowise-vy6k.onrender.com/api/v1/prediction/2f08ed7f-f1db-4d17-9ced-7492b8b7af6d",
         {
@@ -51,4 +50,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
 
