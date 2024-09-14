@@ -16,7 +16,7 @@ app.post('/webhook', async (req, res) => {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `9hl0o0vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU`
+          'Authorization': `Bearer 9hl0o0vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU`
         }
       });
 
@@ -33,6 +33,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-});
-
