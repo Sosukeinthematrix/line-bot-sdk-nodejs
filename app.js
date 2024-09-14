@@ -1,6 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const axios = require('axios'); // Used to send requests to Flowise
+import express from 'express';
+import bodyParser from 'body-parser';
+import axios from 'axios'; // Used to send requests to Flowise
+
 const app = express();
 
 // Middleware to parse incoming JSON data
