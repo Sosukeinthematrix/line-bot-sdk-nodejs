@@ -4,7 +4,7 @@
   "description": "Node.js SDK for LINE Messaging API",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": "18.x"
   },
   "main": "./dist/cjs/index.js",
   "types": "./dist/index.d.ts",
@@ -32,23 +32,24 @@
     "!dist/cjs/*/tests"
   ],
   "scripts": {
-    "pretest": "npm run format && npm run build",
-    "test": "vitest run",
-    "covtest": "vitest run --coverage",
-    "prettier": "prettier \"{lib,test}/**/*.ts\"",
-    "format": "npm run prettier -- --write",
-    "format:check": "npm run prettier -- -l",
-    "clean": "rm -rf dist/*",
-    "copy-rollup": "node ./scripts/workaround-for-rollup.mjs",
-    "prebuild": "npm run format:check && npm run clean && npm run copy-rollup",
-    "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && echo \"{\\\"type\\\": \\\"commonjs\\\"}\" > dist/cjs/package.json",
-    "docs": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "docs:deploy": "./scripts/deploy-docs.sh",
-    "apidocs": "typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/apidocs lib/index.ts",
-    "release": "npm run build && npm publish --access public"
-  },
+  "pretest": "npm run format && npm run build",
+  "test": "vitest run",
+  "covtest": "vitest run --coverage",
+  "prettier": "prettier \"{lib,test}/**/*.ts\"",
+  "format": "npm run prettier -- --write",
+  "format:check": "npm run prettier -- -l",
+  "clean": "rm -rf dist/*",
+  "copy-rollup": "node ./scripts/workaround-for-rollup.mjs",
+  "prebuild": "npm run format:check && npm run clean && npm run copy-rollup",
+  "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && echo \"{\\\"type\\\": \\\"commonjs\\\"}\" > dist/cjs/package.json",
+  "docs": "vitepress dev docs",
+  "docs:build": "vitepress build docs",
+  "docs:preview": "vitepress preview docs",
+  "docs:deploy": "./scripts/deploy-docs.sh",
+  "apidocs": "typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/apidocs lib/index.ts",
+  "release": "npm run build && npm publish --access public",
+  "start": "npm run build && node ./dist/cjs/index.js"
+},
   "repository": {
     "type": "git",
     "url": "git@github.com:line/line-bot-sdk-nodejs.git"
