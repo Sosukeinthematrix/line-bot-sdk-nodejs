@@ -6,50 +6,26 @@
   "engines": {
     "node": "18.x"
   },
-  "main": "./dist/cjs/index.js",
-  "types": "./dist/index.d.ts",
-  "module": "./dist/index.js",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/cjs/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      },
-      "default": "./dist/cjs/index.js"
-    },
-    "./package.json": "./package.json"
-  },
-  "sideEffects": false,
-  "files": [
-    "dist",
-    "lib",
-    "!lib/**/tests",
-    "!dist/*/tests",
-    "!dist/cjs/*/tests"
-  ],
+  "main": "app.js",  // Change to the main server file you're creating
   "scripts": {
-  "pretest": "npm run format && npm run build",
-  "test": "vitest run",
-  "covtest": "vitest run --coverage",
-  "prettier": "prettier \"{lib,test}/**/*.ts\"",
-  "format": "npm run prettier -- --write",
-  "format:check": "npm run prettier -- -l",
-  "clean": "rm -rf dist/*",
-  "copy-rollup": "node ./scripts/workaround-for-rollup.mjs",
-  "prebuild": "npm run format:check && npm run clean && npm run copy-rollup",
-  "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && echo \"{\\\"type\\\": \\\"commonjs\\\"}\" > dist/cjs/package.json",
-  "docs": "vitepress dev docs",
-  "docs:build": "vitepress build docs",
-  "docs:preview": "vitepress preview docs",
-  "docs:deploy": "./scripts/deploy-docs.sh",
-  "apidocs": "typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/apidocs lib/index.ts",
-  "release": "npm run build && npm publish --access public",
-  "start": "npm run build && node ./dist/cjs/index.js"
-},
+    "pretest": "npm run format && npm run build",
+    "test": "vitest run",
+    "covtest": "vitest run --coverage",
+    "prettier": "prettier \"{lib,test}/**/*.ts\"",
+    "format": "npm run prettier -- --write",
+    "format:check": "npm run prettier -- -l",
+    "clean": "rm -rf dist/*",
+    "copy-rollup": "node ./scripts/workaround-for-rollup.mjs",
+    "prebuild": "npm run format:check && npm run clean && npm run copy-rollup",
+    "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && echo \"{\\\"type\\\": \\\"commonjs\\\"}\" > dist/cjs/package.json",
+    "docs": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "docs:deploy": "./scripts/deploy-docs.sh",
+    "apidocs": "typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/apidocs lib/index.ts",
+    "release": "npm run build && npm publish --access public",
+    "start": "node app.js"  // This is the important change; run your Express server here
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:line/line-bot-sdk-nodejs.git"
@@ -60,10 +36,10 @@
     "sdk"
   ],
   "dependencies": {
+    "express": "^4.17.1",  // Add express
+    "body-parser": "^1.19.0",  // Add body-parser
+    "axios": "^1.7.4",  // Keep axios or add it if missing
     "@types/node": "^20.0.0"
-  },
-  "optionalDependencies": {
-    "axios": "^1.7.4"
   },
   "devDependencies": {
     "@types/express": "4.17.21",
