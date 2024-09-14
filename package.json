@@ -24,7 +24,7 @@
     "docs:deploy": "./scripts/deploy-docs.sh",
     "apidocs": "typedoc --excludePrivate --plugin typedoc-plugin-markdown --out docs/apidocs lib/index.ts",
     "release": "npm run build && npm publish --access public",
-    "start": "node app.js"  // This is the important change; run your Express server here
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
