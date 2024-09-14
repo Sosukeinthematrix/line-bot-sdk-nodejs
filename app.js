@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
-import base64 from 'base-64';
+import base64 from 'base-64'; // Correctly imported base-64 package
 
 const app = express();
 app.use(bodyParser.json());
@@ -11,9 +11,9 @@ app.post('/webhook', async (req, res) => {
 
   try {
     for (let event of events) {
-      const username = process.env.FLOWISE_USERNAME; // Get from Render environment
-      const password = process.env.FLOWISE_PASSWORD; // Get from Render environment
-      const authHeader = 'Basic ' + base64.encode(username + ':' + password); // Basic Auth encoding
+      const username = process.env.FLOWISE_USERNAME;
+      const password = process.env.FLOWISE_PASSWORD;
+      const authHeader = 'Basic ' + base64.encode(username + ':' + password); // Use base-64 encoding
 
       const response = await fetch(
         "https://flowise-vy6k.onrender.com/api/v1/prediction/2f08ed7f-f1db-4d17-9ced-7492b8b7af6d",
