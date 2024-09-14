@@ -10,12 +10,15 @@ app.post('/webhook', async (req, res) => {
 
   try {
     for (let event of events) {
-      const response = await axios.post('https://your-flowise-api-endpoint.com', {
-        event
+      // Forward the event to Flowise API
+      const response = await axios.post('https://flowise-vy6k.onrender.com/api/v1/prediction', {
+        chatflowid: '2f08ed7f-f1db-4d17-9ced-7492b8b7af6d',
+        question: event.message.text,
       });
+
       console.log(`Flowise response: ${response.data}`);
     }
-    res.status(200).send('OK');
+    res.status(200).send('OK');  // Respond to LINE with HTTP 200
   } catch (error) {
     console.error('Error processing webhook:', error);
     res.status(500).send('Error processing the request');
