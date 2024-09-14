@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import axios from 'axios';
+import fetch from 'node-fetch'; // Assuming you're using node-fetch
 import base64 from 'base-64';
 
 const app = express();
@@ -11,25 +11,25 @@ app.post('/webhook', async (req, res) => {
 
   try {
     for (let event of events) {
-      const username = process.env.FLOWISE_USERNAME; // Get from Render environment
-      const password = process.env.FLOWISE_PASSWORD; // Get from Render environment
       const apiKey = '9hl00vux7S_zpIZfSjfGIPTJKSdTdDDS0q-Y8XgYkU'; // Hardcoded Flowise API key
-      
-      // Basic Auth encoding
-      const basicAuthHeader = 'Basic ' + base64.encode(username + ':' + password);
 
+      // Construct the request headers
+      const headers = {
+        "Authorization": `Bearer ${apiKey}`, // Use Bearer token authentication
+        "Content-Type": "application/json"
+      };
+
+      const body = JSON.stringify({
+        question: event.message.text
+      });
+
+      // Send the request to Flowise
       const response = await fetch(
         "https://flowise-vy6k.onrender.com/api/v1/prediction/2f08ed7f-f1db-4d17-9ced-7492b8b7af6d",
         {
-          headers: {
-            Authorization: basicAuthHeader, // Basic Authentication
-            "x-api-key": apiKey, // Hardcoded API key
-            "Content-Type": "application/json"
-          },
           method: "POST",
-          body: JSON.stringify({
-            question: event.message.text // Send the LINE message text as the question
-          })
+          headers: headers,
+          body: body
         }
       );
 
