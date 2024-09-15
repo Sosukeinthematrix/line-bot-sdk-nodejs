@@ -6,6 +6,8 @@ import axios from 'axios'; // For sending messages back to LINE
 const app = express();
 app.use(bodyParser.json());
 
+const memoryKeyStore = {}; // In-memory store for Flowise memory keys
+
 app.post('/webhook', async (req, res) => {
   const events = req.body.events;
 
@@ -23,7 +25,10 @@ app.post('/webhook', async (req, res) => {
       const userId = event.source.userId;
       console.log(`User ID: ${userId}`);
 
-      // Construct the request to Flowise, including sessionId
+      // Check if a memory key exists for this user, or initialize a new session
+      let memoryKey = memoryKeyStore[userId] || '';
+
+      // Construct the request to Flowise, including memoryKey if exists
       const headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`
@@ -31,7 +36,7 @@ app.post('/webhook', async (req, res) => {
 
       const body = JSON.stringify({
         question: event.message.text,
-        sessionId: userId // Include userId for session management
+        memoryKey: memoryKey // Include memoryKey for session management
       });
 
       // Send the request to Flowise
@@ -43,6 +48,11 @@ app.post('/webhook', async (req, res) => {
 
       const result = await response.json();
       console.log(`Flowise response:`, result);
+
+      // If Flowise returns a memoryKey, store it for future interactions
+      if (result.memoryKey) {
+        memoryKeyStore[userId] = result.memoryKey;
+      }
 
       // Send the Flowise response text back to the user on LINE
       const replyToken = event.replyToken;
@@ -62,8 +72,8 @@ app.post('/webhook', async (req, res) => {
 
       // Send the message to LINE
       await axios.post('https://api.line.me/v2/bot/message/reply', lineBody, { headers: lineHeaders });
-
     }
+
     res.status(200).send('OK');
   } catch (error) {
     if (error.response) {
@@ -79,5 +89,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
