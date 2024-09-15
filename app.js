@@ -6,7 +6,7 @@ import axios from 'axios'; // For sending messages back to LINE
 const app = express();
 app.use(bodyParser.json());
 
-const sessionStore = {}; // In-memory store for Flowise session IDs
+const sessionStore = {}; // In-memory store for Flowise session IDs and chat IDs
 
 app.post('/webhook', async (req, res) => {
   const events = req.body.events;
@@ -25,33 +25,39 @@ app.post('/webhook', async (req, res) => {
       const userId = event.source.userId;
       console.log(`User ID: ${userId}`);
 
-      // Check if a sessionId exists for this user, or start a new session
-      let sessionId = sessionStore[userId] || '';
+      // Check if a sessionId and chatId exist for this user, or start a new session
+      let sessionId = sessionStore[userId]?.sessionId;
+      let chatId = sessionStore[userId]?.chatId;
 
-      // Construct the request to Flowise, including sessionId if exists
+      // Construct the request to Flowise, only adding sessionId and chatId if they exist
       const headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`
       };
 
-      const body = JSON.stringify({
-        question: event.message.text,
-        sessionId: sessionId // Reuse sessionId for session management
-      });
+      const body = {
+        question: event.message.text
+      };
+
+      if (sessionId) body.sessionId = sessionId;
+      if (chatId) body.chatId = chatId;
 
       // Send the request to Flowise
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: headers,
-        body: body
+        body: JSON.stringify(body)
       });
 
       const result = await response.json();
       console.log(`Flowise response:`, result);
 
-      // If Flowise returns a sessionId, store it for future interactions
-      if (result.sessionId) {
-        sessionStore[userId] = result.sessionId;
+      // If Flowise returns a sessionId or chatId, store them for future interactions
+      if (result.sessionId || result.chatId) {
+        sessionStore[userId] = {
+          sessionId: result.sessionId || sessionId,
+          chatId: result.chatId || chatId
+        };
       }
 
       // Send the Flowise response text back to the user on LINE
