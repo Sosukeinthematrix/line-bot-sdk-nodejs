@@ -39,7 +39,7 @@ app.post('/webhook', async (req, res) => {
       const replyToken = event.replyToken;
       const lineHeaders = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer YOUR_LINE_CHANNEL_ACCESS_TOKEN` // Replace with your LINE channel access token
+        "Authorization": `Bearer +byThvRR2bUtUHnrtD2mI5I+YbJr81NY7ZfHVnZD/bdzRNp3xdBNIinC7+2rx/yfx8d7ZvPxw+zEYVEcK2oU9oQcIVOge6UPb+SAn5OqLdEy+kglavMGcHVC1cadqSfc5cC+sEfDEwu10rEo+bkObgdB04t89/1O/w1cDnyilFU=` // Replace with your LINE channel access token
       };
 
       // Construct the message body for LINE
