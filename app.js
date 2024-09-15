@@ -6,7 +6,7 @@ import axios from 'axios'; // For sending messages back to LINE
 const app = express();
 app.use(bodyParser.json());
 
-const memoryKeyStore = {}; // In-memory store for Flowise memory keys
+const sessionStore = {}; // In-memory store for Flowise session IDs
 
 app.post('/webhook', async (req, res) => {
   const events = req.body.events;
@@ -25,10 +25,10 @@ app.post('/webhook', async (req, res) => {
       const userId = event.source.userId;
       console.log(`User ID: ${userId}`);
 
-      // Check if a memory key exists for this user, or initialize a new session
-      let memoryKey = memoryKeyStore[userId] || '';
+      // Check if a sessionId exists for this user, or start a new session
+      let sessionId = sessionStore[userId] || '';
 
-      // Construct the request to Flowise, including memoryKey if exists
+      // Construct the request to Flowise, including sessionId if exists
       const headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`
@@ -36,7 +36,7 @@ app.post('/webhook', async (req, res) => {
 
       const body = JSON.stringify({
         question: event.message.text,
-        memoryKey: memoryKey // Include memoryKey for session management
+        sessionId: sessionId // Reuse sessionId for session management
       });
 
       // Send the request to Flowise
@@ -49,16 +49,16 @@ app.post('/webhook', async (req, res) => {
       const result = await response.json();
       console.log(`Flowise response:`, result);
 
-      // If Flowise returns a memoryKey, store it for future interactions
-      if (result.memoryKey) {
-        memoryKeyStore[userId] = result.memoryKey;
+      // If Flowise returns a sessionId, store it for future interactions
+      if (result.sessionId) {
+        sessionStore[userId] = result.sessionId;
       }
 
       // Send the Flowise response text back to the user on LINE
       const replyToken = event.replyToken;
       const lineHeaders = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer +byThvRR2bUtUHnrtD2mI5I+YbJr81NY7ZfHVnZD/bdzRNp3xdBNIinC7+2rx/yfx8d7ZvPxw+zEYVEcK2oU9oQcIVOge6UPb+SAn5OqLdEy+kglavMGcHVC1cadqSfc5cC+sEfDEwu10rEo+bkObgdB04t89/1O/w1cDnyilFU=` // Replace with your valid LINE token
+        "Authorization": `Bearer YOUR_LINE_CHANNEL_ACCESS_TOKEN` // Replace with your valid LINE token
       };
 
       // Construct the message body for LINE
