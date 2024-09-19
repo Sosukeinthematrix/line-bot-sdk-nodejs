@@ -18,7 +18,7 @@ app.post('/webhook', async (req, res) => {
   try {
     for (let event of events) {
       // Flowise API endpoint
-      const apiUrl = "https://flowise-vy6k.onrender.com/api/v1/prediction/ac995577-b040-4910-a70e-50fcbaaadfbc";
+      const apiUrl = "https://flowise-vy6k.onrender.com/api/v1/prediction/b019cc6e-acf9-425a-8121-bc10d2eb1b9e";
       const apiKey = 'qEk5dm0d0IZSZqO9CGIUB5aNuBlusqqnb--7eSgq-jI'; // Bearer token for Flowise
 
       // Log userId for session tracking
