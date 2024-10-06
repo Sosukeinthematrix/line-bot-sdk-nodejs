@@ -18,8 +18,8 @@ app.post('/webhook', async (req, res) => {
   try {
     for (let event of events) {
       // Flowise API endpoint
-      const apiUrl = "https://flowise-vy6k.onrender.com/api/v1/prediction/316a9af9-a343-42bf-9c19-d5ea7ea53b0c";
-      const apiKey = 'Bearer u3virT9xqg5i7TczRVvib8wT9FZH_aNU1djURhotFSs'; // Bearer token for Flowise
+      const apiUrl = "";
+      const apiKey = 'Bearer ; // Bearer token for Flowise
 
       // Log userId for session tracking
       const userId = event.source.userId;
@@ -64,7 +64,7 @@ app.post('/webhook', async (req, res) => {
       const replyToken = event.replyToken;
       const lineHeaders = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer +byThvRR2bUtUHnrtD2mI5I+YbJr81NY7ZfHVnZD/bdzRNp3xdBNIinC7+2rx/yfx8d7ZvPxw+zEYVEcK2oU9oQcIVOge6UPb+SAn5OqLdEy+kglavMGcHVC1cadqSfc5cC+sEfDEwu10rEo+bkObgdB04t89/1O/w1cDnyilFU=` // Replace with your valid LINE token
+        "Authorization": `Bearer ` // Replace with your valid LINE token
       };
 
       // Construct the message body for LINE
